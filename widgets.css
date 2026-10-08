@@ -1,0 +1,66 @@
+/* About page layout: hero row on top, widgets below. margin:auto centres without clipping when content is taller than the screen. */
+.page{place-items:unset}
+.page > :not(.badge-layer){margin:auto}
+.about-wrap{display:flex;flex-direction:column;align-items:center;gap:clamp(36px,5vw,64px);width:100%}
+.widgets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;width:min(1120px,100%);align-items:stretch;padding-bottom:24px}
+
+/* Widget card (light, soft, Marco-style) */
+.widget{position:relative;background:#f7f7f9;color:#1c1c1e;border-radius:clamp(30px,3.4vw,46px);padding:clamp(24px,3vw,40px);
+  font-weight:500;box-shadow:0 24px 60px rgba(40,0,60,.22),inset 0 1px 0 #fff;
+  transition:transform .5s var(--spring),box-shadow .4s}
+.widget:hover{transform:translateY(-4px);box-shadow:0 32px 70px rgba(40,0,60,.28),inset 0 1px 0 #fff}
+
+.w-title{font-size:clamp(24px,2.5vw,36px);line-height:1.2;font-weight:500;letter-spacing:-.01em;color:#0b0b0d}
+.w-title b{font-weight:600}
+.w-title span{color:#98989f}
+.w-title u{text-decoration-thickness:2px;text-underline-offset:5px}
+.w-note hr{border:0;border-top:1px solid #e6e6ea;margin:22px 0 8px}
+.w-note p{margin-top:.95em;font-size:clamp(16px,1.45vw,20px);line-height:1.55;color:#77777e;font-weight:500}
+
+/* Music widget */
+.w-music{display:flex;flex-direction:column;gap:18px}
+.m-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.m-cover{width:min(60%,230px);aspect-ratio:1;padding:6px;border-radius:8px;background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:transform .5s var(--spring)}
+.m-cover img{width:100%;height:100%;object-fit:cover;display:block;border-radius:3px;pointer-events:none}
+.w-music.playing .m-cover{transform:rotate(-2deg) scale(1.03)}
+.m-brand{flex:none;width:clamp(60px,6.4vw,82px);aspect-ratio:1;display:block;border-radius:50%;filter:drop-shadow(0 8px 14px rgba(19,167,77,.35));transition:transform .45s var(--spring)}
+.m-brand img{width:100%;height:100%;display:block;pointer-events:none}
+.m-brand:hover{transform:scale(1.08) rotate(-4deg)}
+.m-title{display:flex;align-items:center;gap:10px;font-size:clamp(20px,1.9vw,26px);font-weight:600;color:#0b0b0d;letter-spacing:-.01em}
+.m-title span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.m-e{flex:none;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:5px;background:#8e8e93;color:#fff;font:700 12px/1 var(--font);font-style:normal}
+.m-e[hidden]{display:none}
+.m-artist{margin-top:4px;font-size:clamp(17px,1.6vw,22px);color:#8a8a91}
+.m-bar{margin-top:14px;height:5px;border-radius:99px;background:#e4e4e9;overflow:hidden}
+.m-bar i{display:block;height:100%;width:0;background:#0b0b0d;border-radius:99px;transition:width .4s linear}
+.m-controls{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:10px 20px;border:2.5px solid #d9d9de;border-radius:999px}
+.m-controls button{all:unset;cursor:pointer;display:grid;place-items:center;width:44px;height:40px;color:#a3a3aa;border-radius:12px;transition:color .2s,transform .35s var(--spring)}
+.m-controls button:hover{color:#4a4a52;transform:scale(1.12)}
+.m-controls button:active{transform:scale(.9)}
+.m-controls button:focus-visible{outline:2px solid #0a84ff;outline-offset:2px}
+.m-controls button[aria-pressed="true"],.m-controls button[aria-expanded="true"]{color:#13a74d}
+.m-controls svg{width:24px;height:24px}
+.m-play svg{width:28px;height:28px;color:#6d6d75}
+.m-play .i-pause{display:none}
+.w-music.playing .m-play .i-play{display:none}
+.w-music.playing .m-play .i-pause{display:block}
+
+/* Song list sheet */
+.m-queue{list-style:none;padding:8px;margin:0;position:absolute;left:14px;right:14px;bottom:14px;max-height:78%;overflow:auto;z-index:3;
+  background:rgba(247,247,249,.96);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-radius:30px;box-shadow:0 20px 50px rgba(0,0,0,.28),0 0 0 1px rgba(0,0,0,.06)}
+.m-queue[hidden]{display:none}
+.m-queue li{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:20px;cursor:pointer;transition:background .2s}
+.m-queue li:hover{background:#ececf0}
+.m-queue li.on{background:#e3f6ea}
+.m-queue img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+.m-queue b{display:block;font-size:16px;color:#0b0b0d;font-weight:600}
+.m-queue small{display:block;font-size:14px;color:#8a8a91}
+.m-queue .n{margin-left:auto;color:#a3a3aa;font-size:13px}
+
+/* Hidden Spotify engine: kept 1px so playback is allowed but nothing shows */
+.m-embed{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;right:0;bottom:0}
+
+@media (max-width:900px){
+  .widgets{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){ .widget,.m-cover,.m-brand{transition:none} }

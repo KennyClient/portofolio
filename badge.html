@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>I'M KENNY · Badge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="badge.css?v=4">
+<style>
+  *{box-sizing:border-box;margin:0}
+  html,body{height:100%}
+  body{--font:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,"Segoe UI",system-ui,sans-serif;font-family:var(--font);color:#fff;overflow:hidden;background:#b0148f;touch-action:none}
+  .bg{position:fixed;inset:-4%;background:url(assets/bg.png) center/cover no-repeat;z-index:-1}
+  .hint{position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:3;padding:10px 20px;border-radius:999px;font-weight:600;font-size:15px;white-space:nowrap;
+    background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.28);-webkit-backdrop-filter:blur(24px) saturate(170%);backdrop-filter:blur(24px) saturate(170%);transition:opacity .6s,transform .6s}
+  .hint.gone{opacity:0;transform:translate(-50%,10px)}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<div class="badge-layer fixed" id="badgeLayer">
+  <svg class="strap" aria-hidden="true">
+    <path id="strapPath" fill="none" stroke="#0b0b0d" stroke-width="30" stroke-linejoin="round"/>
+    <path id="strapEdge" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="2" stroke-linejoin="round" transform="translate(-13 0)"/>
+    <text class="strap-text" dy="3.5"><textPath href="#strapPath">KENNY CLINT HUTAHAEAN • KENNY CLINT HUTAHAEAN • KENNY CLINT HUTAHAEAN • KENNY CLINT HUTAHAEAN • </textPath></text>
+  </svg>
+  <div class="card-wrap" aria-label="Draggable ID badge">
+    <div class="card-3d">
+      <div class="face front">
+        <div class="clip"><i></i></div><div class="slot"></div>
+        <div class="photo"><img src="assets/kenny.jpg" alt="Kenny" draggable="false"></div>
+        <div class="b-hello">HELLO!!!!</div>
+        <div class="b-tag">I'M KENNY</div>
+        <div class="sheen"></div>
+      </div>
+      <div class="face back">
+        <div class="clip"><i></i></div><div class="slot"></div>
+        <div class="mono">KC</div>
+        <div class="meta">KENNY CLINT<br>HUTAHAEAN</div>
+        <div class="meta small">INFORMATICS · UNDIP</div>
+        <div class="sheen"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="hint" id="hint">Drag the badge, fling it, let it swing</p>
+<script src="badge.js?v=4"></script>
+</body>
+</html>
+
