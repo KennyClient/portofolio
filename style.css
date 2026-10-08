@@ -18,15 +18,17 @@ a{color:inherit;text-decoration:none}
   animation:drift 28s ease-in-out infinite alternate;z-index:-1}
 @keyframes drift{to{transform:scale(1.08) translate(-1.5%,1%)}}
 
+/* Birds of Paradise (personal-use font supplied by the site owner) */
+@font-face{font-family:"Birds of Paradise";src:url(assets/fonts/BirdsOfParadise.ttf) format("truetype");font-display:block}
+
 /* Welcome */
 .welcome{position:fixed;inset:0;display:grid;place-content:center;justify-items:center;gap:18px;cursor:pointer;
   background:linear-gradient(180deg,#c433f7 0%,#c433f7 45%,#51349a 100%);z-index:30;
   transition:opacity .7s var(--ease),transform .7s var(--ease),filter .7s var(--ease);outline:none}
 .welcome.out{opacity:0;transform:scale(1.06);filter:blur(14px);pointer-events:none}
-.script{font-family:Playball,"Brush Script MT",cursive;font-weight:400;font-size:clamp(64px,13vw,150px);
+.script{font-family:"Birds of Paradise",Playball,"Brush Script MT",cursive;font-weight:400;font-size:clamp(64px,13vw,150px);
   background:linear-gradient(100deg,#ffe000,#ff9d00);-webkit-background-clip:text;background-clip:text;color:transparent;
   padding:0 .12em .1em;filter:drop-shadow(0 6px 24px rgba(255,160,0,.35));animation:rise 1.2s var(--ease) both}
-.hint{font-size:18px;opacity:.75;animation:rise 1.2s .5s var(--ease) both, pulse 2.4s 1.7s ease-in-out infinite}
 @keyframes rise{from{opacity:0;transform:translateY(24px) scale(.96);filter:blur(10px)}}
 @keyframes pulse{50%{opacity:.35}}
 

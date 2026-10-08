@@ -18,7 +18,7 @@
     prog: $('mProg'), play: $('mPlay'), prev: $('mPrev'), next: $('mNext'), list: $('mList'), shuffle: $('mShuffle'),
     queue: $('mQueue'), engine: $('mEngine') };
 
-  let idx = 0, shuffle = false, playing = false, ctrl = null, apiState = 'idle', wantPlay = false;
+  let idx = 0, shuffle = false, playing = false, ctrl = null, apiState = 'idle', wantPlay = false, loadedUri = null;
 
   function render() {
     const t = TRACKS[idx];
@@ -54,14 +54,14 @@
     apiState = 'loading';
     window.onSpotifyIframeApiReady = api => {
       api.createController(el.engine, { uri: TRACKS[idx].uri, width: 80, height: 80 }, c => {
-        ctrl = c; apiState = 'ready';
+        ctrl = c; apiState = 'ready'; loadedUri = TRACKS[idx].uri;
         c.addListener('playback_update', e => {
           const d = e.data; if (!d) return;
           setPlaying(!d.isPaused && !d.isBuffering);
           if (d.duration) el.prog.style.width = Math.min(100, (d.position / d.duration) * 100) + '%';
           if (d.duration && d.position >= d.duration - 400) step(1, true);   // roll to the next song
         });
-        if (wantPlay) { c.loadUri(TRACKS[idx].uri); c.play(); }
+        if (wantPlay) playCurrent();
       });
     };
     const s = document.createElement('script');
@@ -70,10 +70,17 @@
     document.head.appendChild(s);
   }
 
+  // Load only when the track actually changed (reloading the same URI is what made play feel slow).
+  function playCurrent() {
+    const uri = TRACKS[idx].uri;
+    if (loadedUri !== uri) { loadedUri = uri; ctrl.loadUri(uri); }
+    ctrl.play();
+  }
+
   function go(i, autoplay) {
     idx = (i + TRACKS.length) % TRACKS.length; render();
-    if (autoplay) { wantPlay = true; loadApi(); if (ctrl) { ctrl.loadUri(TRACKS[idx].uri); ctrl.play(); } }
-    else if (ctrl) ctrl.loadUri(TRACKS[idx].uri);
+    if (autoplay) { wantPlay = true; loadApi(); if (ctrl) playCurrent(); }
+    else if (ctrl) { loadedUri = TRACKS[idx].uri; ctrl.loadUri(loadedUri); }
   }
   function step(dir, autoplay) {
     if (shuffle && TRACKS.length > 1) { let n; do { n = Math.floor(Math.random() * TRACKS.length); } while (n === idx); go(n, autoplay); }
@@ -83,11 +90,14 @@
   el.play.addEventListener('click', () => {
     if (apiState === 'failed') { window.open(TRACKS[idx].url, '_blank', 'noopener'); return; }
     wantPlay = true; loadApi();
-    if (ctrl) { if (playing) ctrl.pause(); else { ctrl.loadUri(TRACKS[idx].uri); ctrl.play(); } }
+    if (ctrl) { if (playing) ctrl.pause(); else playCurrent(); }
   });
   el.next.addEventListener('click', () => step(1, playing || wantPlay));
   el.prev.addEventListener('click', () => step(-1, playing || wantPlay));
   el.shuffle.addEventListener('click', () => { shuffle = !shuffle; el.shuffle.setAttribute('aria-pressed', String(shuffle)); });
 
   render();
+  // Warm up the Spotify engine in the background so the first press of play is instant.
+  const warm = () => loadApi();
+  if ('requestIdleCallback' in window) requestIdleCallback(warm, { timeout: 2500 }); else setTimeout(warm, 1500);
 })();

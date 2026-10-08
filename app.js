@@ -124,5 +124,10 @@
   welcome.addEventListener('click', enter);
   welcome.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') enter(); });
   if (sessionStorage.getItem('entered') || location.hash) { welcome.remove(); seg.hidden = false; pagesWrap.hidden = false; show(location.hash.slice(1) || 'about', true); }
-  else welcome.focus();
+  else {
+    welcome.focus();
+    // Enter on its own once the script font is ready and the title has played its intro.
+    const fontReady = Promise.race([document.fonts.load('1em "Birds of Paradise"'), new Promise(r => setTimeout(r, 1500))]).catch(() => {});
+    fontReady.then(() => setTimeout(enter, 2200));
+  }
 })();
