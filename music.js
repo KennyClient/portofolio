@@ -13,7 +13,7 @@
     { id: '3jHdKaLCkuNEkWcLVmQPCX', title: 'BEST INTEREST', artist: 'Tyler, The Creator', explicit: true },
     { id: '45J4avUb9Ni0bnETYaYFVJ', title: 'luther (with sza)', artist: 'Kendrick Lamar, SZA', explicit: false },
     { id: '0NfYAsKygCYwPA2BgTZ1qg', title: 'Now Or Never - Bonus Track', artist: 'Kendrick Lamar, Mary J. Blige', explicit: false },
-  ].map((t, i) => ({ ...t, cover: `assets/music/${i + 1}.jpg`, url: `https://open.spotify.com/track/${t.id}`, uri: `spotify:track:${t.id}` }));
+  ].map(t => ({ ...t, cover: `assets/music/${t.id}.jpg`, url: `https://open.spotify.com/track/${t.id}`, uri: `spotify:track:${t.id}` }));
 
   const el = { cover: $('mCover'), title: $('mTitle'), artist: $('mArtist'), exp: $('mExplicit'), link: $('mLink'),
     prog: $('mProg'), play: $('mPlay'), prev: $('mPrev'), next: $('mNext'), list: $('mList'), shuffle: $('mShuffle'),
