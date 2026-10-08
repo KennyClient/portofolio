@@ -19,8 +19,10 @@
 
   // Hover: the glass thumb flies to the hovered tab and leans toward the cursor,
   // like the iOS segmented control / tab bar.
+  let mouseOver = false;   // true only while a real mouse is over the control (touch leaves :hover stuck)
   seg.addEventListener('pointermove', e => {
-    if (e.pointerType === 'touch') return;
+    if (e.pointerType !== 'mouse') return;
+    mouseOver = true;
     const el = e.target.closest('.seg-item');
     if (!el) return;
     const r = el.getBoundingClientRect();
@@ -30,11 +32,16 @@
     place(el, { follow: true, dx: lean });
   });
   seg.addEventListener('pointerleave', () => {
+    mouseOver = false;
     seg.classList.remove('hovering');
     items.forEach(i => i.classList.remove('hot'));
     place(activeEl());
   });
-  seg.addEventListener('pointerdown', () => thumb.classList.add('press'));
+  seg.addEventListener('pointerdown', e => {
+    thumb.classList.add('press');
+    const el = e.target.closest('.seg-item');
+    if (el) place(el);          // move the glass the instant a finger/mouse presses, before the page swaps
+  });
   addEventListener('pointerup', () => thumb.classList.remove('press'));
 
   /* ---- typing animation for the About heading ---- */
@@ -73,13 +80,13 @@
       i.setAttribute('aria-current', on ? 'page' : 'false');
     });
     if (instant) { thumb.classList.add('init'); place(activeEl()); void thumb.offsetWidth; thumb.classList.remove('init'); }
-    else if (!seg.matches(':hover')) place(activeEl());
+    else place(activeEl());
     document.title = (items.find(i => i.dataset.page === name).textContent) + ' · Kenny Clint Hutahaean';
   }
   addEventListener('hashchange', () => show(location.hash.slice(1)));
-  addEventListener('resize', () => place(seg.matches(':hover') ? (items.find(i => i.classList.contains('hot')) || activeEl()) : activeEl()));
+  addEventListener('resize', () => place(mouseOver ? (items.find(i => i.classList.contains('hot')) || activeEl()) : activeEl()));
   // Re-measure whenever the control changes size (web fonts loading, viewport changes).
-  new ResizeObserver(() => { if (!seg.hidden && current) { thumb.classList.add('init'); place(seg.matches(':hover') ? (items.find(i => i.classList.contains('hot')) || activeEl()) : activeEl()); void thumb.offsetWidth; thumb.classList.remove('init'); } }).observe(seg);
+  new ResizeObserver(() => { if (!seg.hidden && current) { thumb.classList.add('init'); place(mouseOver ? (items.find(i => i.classList.contains('hot')) || activeEl()) : activeEl()); void thumb.offsetWidth; thumb.classList.remove('init'); } }).observe(seg);
 
   /* ---- copy-to-clipboard (Discord username) ---- */
   const toast = $('#toast');

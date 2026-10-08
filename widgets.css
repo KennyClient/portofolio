@@ -64,3 +64,16 @@
   .widgets{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){ .widget,.m-cover,.m-brand{transition:none} }
+
+/* Phones and small tablets: gallery thumbnails fill the card instead of using fixed heights */
+@media (max-width:900px){
+  .works{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+  .work-group{min-width:0}
+  .thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .thumbs.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .thumb{height:auto;width:100%}
+}
+@media (max-width:560px){
+  .thumbs.two{grid-template-columns:minmax(0,1fr)}
+  .card{padding:22px 20px;border-radius:34px}
+}
