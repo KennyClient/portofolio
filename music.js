@@ -5,6 +5,7 @@
   const $ = id => document.getElementById(id);
 
   const TRACKS = [
+    { id: '5tDbyeaCvxjNCBcupQucGo', title: '#BrooklynBloodPop!', artist: 'SyKo', explicit: true },
     { id: '3IznIgmXtrUaoPWpQTy5jB', title: 'Not Allowed', artist: 'TV Girl', explicit: true },
     { id: '1UGD3lW3tDmgZfAVDh6w7r', title: 'Devil In A New Dress', artist: 'Kanye West, Rick Ross', explicit: true },
     { id: '7vgTNTaEz3CsBZ1N4YQalM', title: 'Ghost Town', artist: 'Kanye West, PARTYNEXTDOOR', explicit: true },

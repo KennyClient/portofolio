@@ -68,6 +68,23 @@
     typeTimer = setTimeout(tick, 450);
   }
 
+  // Touch: handle the tap ourselves. Cancelling touchstart removes the browser's tap-highlight box
+  // and its click delay; we move the glass on touch-down and switch pages on touch-up.
+  let touched = null;
+  seg.addEventListener('touchstart', e => {
+    const el = e.target.closest('.seg-item');
+    if (!el) return;
+    e.preventDefault();
+    touched = el; thumb.classList.add('press'); place(el);
+  }, { passive: false });
+  const endTouch = go => {
+    thumb.classList.remove('press');
+    if (go && touched && location.hash.slice(1) !== touched.dataset.page) location.hash = touched.dataset.page;
+    else place(activeEl());
+    touched = null;
+  };
+  seg.addEventListener('touchend', e => { if (touched) { e.preventDefault(); endTouch(true); } }, { passive: false });
+  seg.addEventListener('touchcancel', () => endTouch(false));
   /* ---- routing ---- */
   function show(name, instant) {
     if (!valid.has(name)) name = 'about';
