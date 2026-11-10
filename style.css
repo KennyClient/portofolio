@@ -158,7 +158,7 @@ a{color:inherit;text-decoration:none}
 .g3 .card-wide{grid-column:1/-1}
 .works{display:flex;flex-wrap:wrap;gap:20px 32px;margin-top:8px}
 .work-group h5{font-size:14px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:10px}
-.thumbs{display:flex;gap:12px;--th:clamp(150px,13vw,190px)}
+.thumbs{display:flex;flex-wrap:wrap;gap:12px;--th:clamp(150px,13vw,190px)}
 .thumb{position:relative;display:block;height:var(--th);border-radius:22px;overflow:hidden;border:1.5px solid rgba(0,0,0,.1);
   box-shadow:0 10px 24px rgba(30,0,50,.3);transition:transform .45s var(--spring),box-shadow .3s;background:rgba(0,0,0,.2)}
 .thumb.tall{aspect-ratio:1024/1479}
